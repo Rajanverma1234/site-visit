@@ -21,7 +21,7 @@ const description =
   "Walk through THE SOVEREIGN from home — interactive 3D towers, a live floor selector and a virtual tour of ultra-luxury 4 & 5 BHK residences and penthouses on Golf Course Road, Gurugram. Concept demo.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://the-sovereign.vercel.app"),
+  metadataBase: new URL("https://site-visit-wcr.vercel.app"),
   title: { default: title, template: "%s | The Sovereign by White Collar Realty" },
   description,
   keywords: ["luxury apartments Gurugram", "Golf Course Road", "4 BHK", "5 BHK", "penthouse", "virtual tour", "White Collar Realty"],
