@@ -2,12 +2,14 @@
 
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import type { z } from "zod";
 import { forwardRef, useEffect, useId, useState, type InputHTMLAttributes, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Clock, LoaderCircle } from "lucide-react";
 import { company, project } from "@/data/project";
-import { countries, getCountry, normaliseNational } from "@/data/countries";
+import { getCountry } from "@/data/countries";
+import { CountryOptions } from "./BrochureRequest";
+import { phoneError, submitLead, toE164, viewingSchema } from "@/lib/lead";
 import { IST_ZONE, dayShiftText, detectTimeZone, isIndianZone, istSlotToZone, zoneAbbrev, zoneCity } from "@/lib/timezone";
 import { cn } from "@/lib/utils";
 import { whatsappLink } from "./WhatsAppButton";
@@ -24,62 +26,38 @@ const localToday = () => {
   return d.toISOString().slice(0, 10);
 };
 
-export const leadSchema = z
-  .object({
-    name: z.string().trim().min(2, "Please enter your full name").max(80, "That name is too long"),
-    country: z.string().min(2),
-    phone: z.string().trim().min(1, "Enter your mobile number"),
-    email: z.string().trim().min(1, "Enter your email address").email("Enter a valid email address"),
-    interest: z.enum(["4 BHK", "5 BHK", "Penthouse"], { errorMap: () => ({ message: "Choose a residence type" }) }),
-    mode: z.enum(["Video Call Tour", "Site Visit"], { errorMap: () => ({ message: "Choose how you'd like to visit" }) }),
-    date: z
-      .string()
-      .min(1, "Pick a preferred date")
-      .refine((v) => v >= localToday(), "Date can't be in the past"),
-    time: z.string().min(1, "Pick a preferred time"),
-    timeZone: z.string().optional(),
-  });
-
-type LeadInput = z.input<typeof leadSchema>;
+type LeadInput = z.input<typeof viewingSchema>;
+type Lead = z.output<typeof viewingSchema> & { phoneE164: string };
 
 /**
  * zod skips object-level refinements until every other field is valid, which would hide
- * the phone error until the end. So the country-specific phone check runs here instead.
+ * the phone error until the end — so the country-specific phone check runs here.
+ * Dates before the visitor's local "today" are also rejected here (the server is a day more lenient).
  */
-const baseResolver = zodResolver(leadSchema);
+const baseResolver = zodResolver(viewingSchema);
 const leadResolver: Resolver<LeadInput> = async (values, context, options) => {
   const result = await baseResolver(values, context, options);
-  const c = getCountry(values.country);
-  if (values.phone && !result.errors.phone && !c.pattern.test(normaliseNational(values.phone, c))) {
-    return {
-      values: {},
-      errors: { ...result.errors, phone: { type: "pattern", message: `Enter a valid ${c.name} mobile number, e.g. ${c.example}` } },
-    };
-  }
-  return result;
+  const errors = { ...result.errors };
+  const pErr = values.phone && !errors.phone ? phoneError(values.country, values.phone) : null;
+  if (pErr) errors.phone = { type: "pattern", message: pErr };
+  if (values.date && !errors.date && values.date < localToday()) errors.date = { type: "min", message: "Date can't be in the past" };
+  return Object.keys(errors).length ? { values: {}, errors } : result;
 };
-type Lead = z.output<typeof leadSchema> & { phoneE164: string };
-
-/** "+44" + "7400123456" → "+447400123456" */
-const toE164 = (country: string, phone: string) => {
-  const c = getCountry(country);
-  return `${c.dial}${normaliseNational(phone, c)}`;
-};
-
-export const LEADS_STORAGE_KEY = "wcr-demo-leads";
 
 /**
- * Lead capture form (react-hook-form + zod).
- * Demo: leads are stored in localStorage only. TODO(client): replace `onSubmit` with a CRM / API call.
+ * Viewing-request form (react-hook-form + zod) → POST /api/lead (emails the sales team when configured).
  */
 export default function LeadForm({
   tone = "dark",
   defaultMode,
   defaultInterest,
+  unit,
 }: {
   tone?: "dark" | "light";
   defaultMode?: Lead["mode"];
   defaultInterest?: Lead["interest"];
+  /** Unit ID when arriving from the floor selector / virtual tour (e.g. "A-2301"). */
+  unit?: string;
 }) {
   const uid = useId();
   const id = (k: string) => `${uid}-${k}`;
@@ -87,6 +65,7 @@ export default function LeadForm({
   // Browser-only values are set after mount so server and client markup match.
   const [minDate, setMinDate] = useState<string | undefined>(undefined);
   const [tz, setTz] = useState<string>(IST_ZONE);
+  const [sendError, setSendError] = useState<string | null>(null);
 
   const {
     register,
@@ -99,7 +78,7 @@ export default function LeadForm({
     resolver: leadResolver,
     mode: "onTouched",
     reValidateMode: "onChange",
-    defaultValues: { country: "IN", mode: defaultMode ?? "Video Call Tour", interest: defaultInterest, time: "11:00" },
+    defaultValues: { country: "IN", mode: defaultMode ?? "Video Call Tour", interest: defaultInterest, time: "11:00", website: "", unit },
   });
 
   useEffect(() => {
@@ -121,16 +100,13 @@ export default function LeadForm({
   };
 
   const onSubmit = async (values: LeadInput) => {
-    const data: Lead = { ...values, phoneE164: toE164(values.country, values.phone) };
-    await new Promise((r) => setTimeout(r, 1100)); // simulate a network request
+    setSendError(null);
     try {
-      const existing = JSON.parse(localStorage.getItem(LEADS_STORAGE_KEY) || "[]");
-      existing.push({ ...data, createdAt: new Date().toISOString() });
-      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(existing));
-    } catch {
-      /* storage unavailable (private mode) — still show success */
+      await submitLead({ type: "viewing", ...(values as z.output<typeof viewingSchema>) });
+      setSubmitted({ ...(values as z.output<typeof viewingSchema>), phoneE164: toE164(values.country, values.phone) });
+    } catch (e) {
+      setSendError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
     }
-    setSubmitted(data);
   };
 
   const light = tone === "light";
@@ -176,7 +152,7 @@ export default function LeadForm({
               </button>
             </div>
             <DemoOnly>
-              <p className={cn("mt-6 text-[11px] uppercase tracking-[0.18em]", light ? "text-charcoal/65" : "text-ivory/65")}>Demo: your details were saved only in this browser.</p>
+              <p className={cn("mt-6 text-[11px] uppercase tracking-[0.18em]", light ? "text-charcoal/65" : "text-ivory/65")}>Demo: no email provider is connected, so your request was only logged.</p>
             </DemoOnly>
           </motion.div>
         ) : (
@@ -190,25 +166,8 @@ export default function LeadForm({
                 <label htmlFor={id("country")} className="sr-only">
                   Country code
                 </label>
-                <select id={id("country")} autoComplete="tel-country-code" className={cn(inputCls, "w-[7.5rem] shrink-0 appearance-none truncate pr-1")} {...register("country")}>
-                  <optgroup label="Popular">
-                    {countries
-                      .filter((c) => c.priority)
-                      .map((c) => (
-                        <option key={c.iso} value={c.iso} className="bg-charcoal text-ivory">
-                          {c.dial} {c.name}
-                        </option>
-                      ))}
-                  </optgroup>
-                  <optgroup label="All countries">
-                    {countries
-                      .filter((c) => !c.priority)
-                      .map((c) => (
-                        <option key={c.iso} value={c.iso} className="bg-charcoal text-ivory">
-                          {c.dial} {c.name}
-                        </option>
-                      ))}
-                  </optgroup>
+                <select id={id("country")} autoComplete="tel-country-code" className={cn(inputCls, "w-[7.5rem] shrink-0 appearance-none truncate pr-1", !light && "[&_option]:bg-charcoal [&_option]:text-ivory")} {...register("country")}>
+                  <CountryOptions />
                 </select>
                 <input
                   id={id("phone")}
@@ -268,6 +227,14 @@ export default function LeadForm({
               </p>
             </Field>
             <input type="hidden" {...register("timeZone")} />
+            <input type="hidden" {...register("unit")} />
+            {/* Honeypot — hidden from people and screen readers; bots fill it in. */}
+            <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+              <label>
+                Website
+                <input type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
+              </label>
+            </div>
 
             <div className="flex flex-col items-start gap-4 pt-2 md:col-span-2 md:flex-row md:items-center md:justify-between">
               <p className={cn("max-w-sm text-xs", light ? "text-charcoal/65" : "text-ivory/65")}>
@@ -282,6 +249,14 @@ export default function LeadForm({
                 </button>
               </Magnetic>
             </div>
+            {sendError && (
+              <div role="alert" className="flex flex-col gap-3 border border-[#f08f80]/50 bg-[#f08f80]/10 p-4 text-sm text-[#f6b2a7] sm:flex-row sm:items-center sm:justify-between md:col-span-2">
+                <span>{sendError}</span>
+                <a className="shrink-0 underline underline-offset-4 hover:text-ivory" href={whatsappLink(`Hello ${company.name}, I'd like to book a private viewing of ${project.shortName}.`)} target="_blank" rel="noopener noreferrer">
+                  Message us on WhatsApp instead
+                </a>
+              </div>
+            )}
             {Object.keys(errors).length > 1 && (
               <p role="alert" className="text-xs text-[#f08f80] md:col-span-2">
                 Please fix the highlighted fields above.

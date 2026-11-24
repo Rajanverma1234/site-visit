@@ -4,6 +4,7 @@ import { company, navLinks, project } from "@/data/project";
 import Logo from "./Logo";
 import { socialIconMap } from "./SocialIcons";
 import { DemoOnly } from "./DemoNote";
+import { BrochureButton } from "./BrochureRequest";
 
 export default function Footer() {
   return (
@@ -43,9 +44,7 @@ export default function Footer() {
                 </li>
               ))}
               <li>
-                <Link href="/brochure" className="hover:text-gold">
-                  Download Brochure
-                </Link>
+                <BrochureButton className="text-left hover:text-gold">Download Brochure</BrochureButton>
               </li>
             </ul>
           </div>
