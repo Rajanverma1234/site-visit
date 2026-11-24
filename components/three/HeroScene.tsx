@@ -5,13 +5,14 @@ import { AdaptiveDpr, PerformanceMonitor } from "@react-three/drei";
 import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing";
 import { Suspense, useState, type MutableRefObject } from "react";
 import Towers from "./Towers";
+import SceneReady from "./SceneReady";
 import { GoldenHourEnvironment, GradientSky } from "./Environment";
 import { FrameloopController, HeroCameraRig } from "./CameraRig";
 import { useMouse } from "@/hooks/useMouse";
 import { useIsTouch, useReducedMotion } from "@/hooks/useMediaQuery";
 
 /** Full-screen hero canvas. Lazy-loaded (ssr:false) from the Hero section. */
-export default function HeroScene({ progress, active }: { progress: MutableRefObject<number>; active: boolean }) {
+export default function HeroScene({ progress, active, onReady }: { progress: MutableRefObject<number>; active: boolean; onReady?: () => void }) {
   const mouse = useMouse();
   const touch = useIsTouch();
   const reducedMotion = useReducedMotion();
@@ -38,6 +39,7 @@ export default function HeroScene({ progress, active }: { progress: MutableRefOb
       <Suspense fallback={null}>
         <GoldenHourEnvironment />
         <Towers quality={quality} reducedMotion={reducedMotion} />
+        <SceneReady onReady={onReady} />
       </Suspense>
 
       <HeroCameraRig mouse={mouse} progress={progress} touch={touch} reducedMotion={reducedMotion} />

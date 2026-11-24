@@ -10,6 +10,7 @@ import { company, project, stats } from "@/data/project";
 import { residences } from "@/data/residences";
 import { formatArea, formatINR } from "@/lib/format";
 import Logo from "@/components/ui/Logo";
+import { IS_DEMO } from "@/lib/site";
 
 /**
  * Print-friendly brochure generated from /data on the fly.
@@ -114,10 +115,10 @@ export default function Brochure() {
               {company.phone} · {company.email}
             </p>
             <p className="text-stone">
-              Possession {project.possession} · RERA {project.rera} (demo)
+              Possession {project.possession} · RERA {project.rera}{IS_DEMO ? " (demo)" : ""}
             </p>
           </div>
-          <p className="max-w-[70mm] text-right text-[10px] text-stone">{company.disclaimer}</p>
+          <p className="max-w-[70mm] text-right text-[10px] text-stone">{IS_DEMO ? company.disclaimer : ""}</p>
         </div>
       </article>
     </div>

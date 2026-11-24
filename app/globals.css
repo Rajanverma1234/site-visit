@@ -141,3 +141,11 @@ input[type="range"].range-luxe:focus-visible { outline: 1px solid var(--gold); o
 }
 
 @keyframes fadeUp { from { opacity: 0; transform: translate(-50%, calc(-100% - 8px)); } to { opacity: 1; } }
+
+/* WCAG AA: muted "stone" text is only 3.2:1 on ivory, so darken it inside light sections. */
+.bg-ivory .text-stone,
+.bg-ivory-200 .text-stone,
+.bg-ivory .text-stone\/70,
+.bg-ivory-200 .text-stone\/70 {
+  color: #66615b;
+}

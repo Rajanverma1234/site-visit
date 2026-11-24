@@ -40,7 +40,7 @@ export interface FloorInfo {
 export const TOTAL_FLOORS = 42;
 export const AMENITY_FLOORS: Record<number, string> = {
   1: "Grand Lobby & Concierge",
-  40: "Sky Lounge · Residents only",
+  40: "Sky Lounge (40th floor) · Residents only",
 };
 
 export const statusColors: Record<UnitStatus, string> = {
@@ -121,4 +121,24 @@ export function inventorySummary() {
     booked: all.filter((u) => u.status === "Booked").length,
     onHold: all.filter((u) => u.status === "On Hold").length,
   };
+}
+
+/** Unit count and floor range for one configuration across both towers (homepage summary). */
+export function configSummary(type: UnitType) {
+  const units = [...inventory.A, ...inventory.B].flatMap((f) => f.units).filter((u) => u.type === type);
+  const floors = units.map((u) => u.floor);
+  return {
+    units: units.length,
+    available: units.filter((u) => u.status === "Available").length,
+    minFloor: Math.min(...floors),
+    maxFloor: Math.max(...floors),
+  };
+}
+
+/** Consistent floor labelling used by the list, tooltip and panel. */
+export function floorLabel(floor: number) {
+  if (floor === 42) return { num: "42", tag: "PH", name: "Floor 42 · The Penthouse" };
+  if (floor === 40) return { num: "40", tag: "SKY", name: "Floor 40 · Sky Lounge" };
+  if (floor === 1) return { num: "01", tag: "L", name: "Floor 1 · Grand Lobby" };
+  return { num: String(floor).padStart(2, "0"), tag: "", name: `Floor ${floor}` };
 }

@@ -17,7 +17,7 @@ export default function FinalCTA() {
             <p className="mt-8 max-w-md text-ivory/60">
               Choose a guided video-call walkthrough from anywhere in the world, or a chauffeured site visit to our sales gallery on Golf Course Road.
             </p>
-            <p className="mt-10 font-serif text-2xl text-gold">{company.phone}</p>
+            <a href={`tel:${company.phoneE164}`} className="mt-10 block font-serif text-2xl text-gold hover:text-gold-light">{company.phone}</a>
             <p className="mt-1 text-sm text-ivory/60">{company.email}</p>
           </Reveal>
         </div>

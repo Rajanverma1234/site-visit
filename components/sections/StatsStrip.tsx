@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { project, stats } from "@/data/project";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
+import { IS_DEMO } from "@/lib/site";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,7 +53,7 @@ export default function StatsStrip() {
             <Reveal delay={0.2}>
               <p className="mt-8 max-w-xl text-base leading-relaxed text-charcoal/70 md:text-lg">{project.intro}</p>
               <p className="mt-4 text-sm text-stone">
-                Possession {project.possession} · RERA {project.rera} <em>(demo)</em>
+                Possession {project.possession} · RERA {project.rera}{IS_DEMO && <em> (demo)</em>}
               </p>
             </Reveal>
           </div>

@@ -44,7 +44,7 @@ export default function Minimap({ onSelect, className }: { onSelect: (room: Room
     <div className={cn("glass-panel p-3", className)}>
       <div className="mb-2 flex items-center justify-between">
         <p className="text-[9px] uppercase tracking-[0.3em] text-gold">Floor plan</p>
-        <p className="text-[9px] uppercase tracking-[0.2em] text-ivory/50">N ↑</p>
+        <p className="text-[9px] uppercase tracking-[0.2em] text-ivory/65">N ↑</p>
       </div>
       <svg viewBox={`-0.3 -0.3 ${W + 0.6} ${H + 0.6}`} className="h-auto w-full" role="group" aria-label="Mini floor plan — click a room to move there">
         {order.map((id) => {

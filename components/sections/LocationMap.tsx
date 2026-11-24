@@ -26,7 +26,7 @@ function FlyTo({ active }: { active: Place | null }) {
 }
 
 /** Leaflet map (client-only). Dark CARTO basemap built on OpenStreetMap data — no API key. */
-export default function LocationMap({ active }: { active: Place | null }) {
+export default function LocationMap({ active, onReady }: { active: Place | null; onReady?: () => void }) {
   const projectIcon = useMemo(
     () =>
       L.divIcon({
@@ -46,7 +46,7 @@ export default function LocationMap({ active }: { active: Place | null }) {
     });
 
   return (
-    <MapContainer center={project.coordinates} zoom={13} scrollWheelZoom={false} className="h-full w-full" attributionControl>
+    <MapContainer center={project.coordinates} zoom={13} scrollWheelZoom={false} className="h-full w-full" attributionControl whenReady={() => onReady?.()}>
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'

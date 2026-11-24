@@ -26,6 +26,8 @@ export interface Residence {
   title: string;
   tagline: string;
   area: number; // sq ft (super area)
+  /** RERA carpet area in sq ft. */
+  carpetArea: number;
   /** Starting price in rupees. null = on request. */
   priceFrom: number | null;
   bedrooms: number;
@@ -49,11 +51,12 @@ export const residences: Residence[] = [
     title: "The Sovereign 4 BHK",
     tagline: "Four bedrooms. Two views. One unforgettable address.",
     area: 4800,
+    carpetArea: 3350, // TODO(client): RERA carpet area
     priceFrom: 12.5 * CRORE,
     bedrooms: 4,
     bathrooms: 5,
     parking: 3,
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=75",
     highlights: ["Private elevator lobby", "11 ft ceiling height", "46 ft wraparound balcony", "Staff room with separate entry"],
     specs: [
       { group: "Flooring", items: ["Imported Italian Statuario marble in living & dining", "Engineered oak wood in bedrooms", "Anti-skid porcelain on balconies"] },
@@ -95,11 +98,12 @@ export const residences: Residence[] = [
     title: "The Sovereign 5 BHK",
     tagline: "Generational living, elevated above the greens.",
     area: 6200,
+    carpetArea: 4350,
     priceFrom: 17 * CRORE,
     bedrooms: 5,
     bathrooms: 6,
     parking: 4,
-    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1920&q=75",
     highlights: ["Dual master suites", "Private study", "Double-height living", "Home theatre-ready den"],
     specs: [
       { group: "Flooring", items: ["Book-matched Statuario marble in living, dining & foyer", "Herringbone oak in bedrooms & study", "Stone-finish deck on balconies"] },
@@ -141,11 +145,12 @@ export const residences: Residence[] = [
     title: "The Sovereign Penthouse",
     tagline: "Only two exist. The sky is your neighbour.",
     area: 11500,
+    carpetArea: 8100,
     priceFrom: null,
     bedrooms: 6,
     bathrooms: 8,
     parking: 6,
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=75",
     highlights: ["Private rooftop pool", "Full-floor residence", "360° panoramic views", "Dedicated butler's suite"],
     specs: [
       { group: "Flooring", items: ["Rare Calacatta Oro marble throughout", "Hand-finished walnut in suites", "Teak deck around private pool"] },
@@ -193,4 +198,9 @@ export function priceBreakup(res: Residence) {
   const subtotal = res.priceLines.reduce((s, l) => s + l.amount, 0);
   const gst = subtotal * GST_RATE;
   return { subtotal, gst, total: subtotal + gst };
+}
+
+/** Lowest published starting price across all configurations (for "Starting from ₹X Cr*"). */
+export function startingPrice(): number {
+  return Math.min(...residences.map((r) => r.priceFrom ?? Infinity));
 }

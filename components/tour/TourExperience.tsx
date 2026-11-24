@@ -12,14 +12,15 @@ import { findUnit } from "@/data/units";
 import { formatArea, formatINR } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useIsTouch, useReducedMotion } from "@/hooks/useMediaQuery";
-import SceneLoader from "@/components/ui/SceneLoader";
+import Image from "next/image";
+import { LoadingChip } from "@/components/ui/LazyScene";
 import Logo from "@/components/ui/Logo";
 import Minimap from "./Minimap";
 import { createAmbient, type Ambient } from "./ambientSound";
 
 const TourCanvas = dynamic(() => import("@/components/three/Apartment"), {
   ssr: false,
-  loading: () => <SceneLoader label="Unlocking residence" />,
+  loading: () => <LoadingChip label="Unlocking residence" className="!bottom-auto !left-1/2 !top-1/2 -translate-x-1/2 -translate-y-1/2" />,
 });
 
 const HELP_KEY = "wcr-tour-help-seen";
@@ -107,6 +108,8 @@ export default function TourExperience() {
 
   return (
     <div ref={container} className="fixed inset-0 overflow-hidden bg-charcoal" data-lenis-prevent>
+      {/* Real render of the living room sits behind the (transparent) canvas until the 3D draws over it. */}
+      <Image src="/posters/tour.jpg" alt="" fill priority sizes="100vw" quality={65} className="object-cover" />
       <div className="absolute inset-0" data-cursor="Drag">
         <TourCanvas room={room} night={night} style={style} touch={touch} reducedMotion={reducedMotion} onRoomChange={setRoom} onMoving={onMoving} />
       </div>

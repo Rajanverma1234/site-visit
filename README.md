@@ -123,3 +123,30 @@ lib/                 emi.ts, format.ts (₹ Cr/Lakh), utils
 - Repeated geometry (windows, slabs, fins, trees, city blocks) is instanced.
 - Touch devices get tap-friendly controls, native scrolling and simpler effects. `prefers-reduced-motion` turns off smooth scrolling, parallax and long animations.
 - Every control can be reached with the keyboard and has a visible focus ring. The floor selector has a keyboard-friendly floor list, and the tour supports arrow keys, `+`/`-` zoom, `1–7` rooms, `N` night and `H` help.
+
+## Demo mode and going live
+
+One environment variable controls everything that only makes sense for a concept demo:
+
+| `NEXT_PUBLIC_IS_DEMO` | Effect |
+| --- | --- |
+| unset or `true` (default) | `noindex, nofollow` meta tag, `robots.txt` blocks all crawlers, and every "concept demo / illustrative / fictional" note is shown. |
+| `false` | Search engines are allowed, and the demo disclaimers, "(demo)" RERA labels and "fictional" badges are hidden. |
+
+Set it in **Vercel → Project → Settings → Environment Variables**, then redeploy. You can also set `NEXT_PUBLIC_SITE_URL` to your real domain for share links.
+
+### Launch checklist (replace demo data)
+
+- `data/project.ts`: real `phoneE164`/`phone` (one number drives the display, `tel:` and WhatsApp links), email, address, social handles, RERA number, possession date. Remove "(fictional)" from the testimonial names, or use real, consented testimonials.
+- `data/residences.ts`: approved carpet and super areas, prices, price breakup, floor plans.
+- `data/units.ts`: real inventory (replace `buildTower()`).
+- `data/buyer.ts`: the RERA-registered payment plan, final specifications and approved FAQ answers.
+- `data/about.ts`: real company history, numbers and past-project photos.
+- `components/ui/LeadForm.tsx`: replace the localStorage `onSubmit` with your CRM/API call, and confirm the IST viewing slots.
+- `public/posters/*.jpg` and `public/og.jpg`: renders of the 3D scenes used as placeholders and link previews. If you change the 3D models, capture new ones at the same sizes (hero 1600×1000 and 860×1864, tour 1600×1000, OG 1200×630).
+
+### Performance notes
+
+- The 3D hero, floor selector and map load lazily behind a static poster (`components/ui/LazyScene.tsx`). On phones the hero's 3D starts on the first touch or scroll; on desktop it starts once the page is idle.
+- Images are served as AVIF/WebP, capped at 1920 px. **`sharp`** is a dependency so that self-hosted `next start` encodes images quickly (Vercel does this on its own servers).
+- Scroll-reveal animations are skipped on phones, touch devices and for `prefers-reduced-motion`.

@@ -7,6 +7,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 /**
+ * Scroll reveals are skipped (content simply shows) for reduced-motion users and on
+ * phones / touch devices, where creating dozens of ScrollTriggers at startup costs
+ * noticeable main-thread time for an effect that is barely visible.
+ */
+function skipReveal() {
+  return window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse), (max-width: 767px)").matches;
+}
+
+/**
  * Fades + lifts its children into view on scroll.
  * Direct children marked with `data-reveal` are staggered; otherwise the wrapper animates as one block.
  */
@@ -30,7 +39,7 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (skipReveal()) return;
     const items = el.querySelectorAll<HTMLElement>("[data-reveal]");
     const targets = items.length ? Array.from(items) : [el];
     const ctx = gsap.context(() => {
@@ -78,7 +87,7 @@ export function RevealText({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (skipReveal()) return;
     const spans = el.querySelectorAll<HTMLElement>("[data-line]");
     const ctx = gsap.context(() => {
       gsap.fromTo(

@@ -51,13 +51,15 @@ export default function EmiCalculator({ defaultLoan = 10 * CRORE, tone = "light"
             <span className="mt-1 font-serif text-2xl">{formatINR(emi)}</span>
           </div>
         </div>
-        <dl className="w-full space-y-4 text-sm">
+        <div className="w-full">
+        <dl className="space-y-4 text-sm">
           <Row label="Monthly EMI" value={formatINRFull(emi)} strong />
           <Row label="Principal" value={formatINR(loan)} dot="#C8A96A" />
           <Row label="Total interest" value={formatINR(totalInterest)} dot={light ? "#E2DACB" : "#2A2A30"} />
           <Row label="Total payable" value={formatINR(totalPayable)} />
-          <p className="pt-2 text-[11px] text-stone">Indicative only. Actual EMI depends on your lender&apos;s terms.</p>
         </dl>
+        <p className="pt-4 text-[11px] text-stone">Indicative only. Actual EMI depends on your lender&apos;s terms.</p>
+        </div>
       </div>
     </div>
   );

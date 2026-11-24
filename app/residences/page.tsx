@@ -6,6 +6,7 @@ import { inventorySummary } from "@/data/units";
 import ResidenceCard from "@/components/residences/ResidenceCard";
 import EmiCalculator from "@/components/residences/EmiCalculator";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
+import { PriceNote } from "@/components/ui/DemoNote";
 
 export const metadata: Metadata = {
   title: "Residences",
@@ -35,6 +36,7 @@ export default function ResidencesPage() {
               </div>
             ))}
           </Reveal>
+          <PriceNote className="mt-5 block text-xs text-ivory/65" />
         </div>
       </section>
 

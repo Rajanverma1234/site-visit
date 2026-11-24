@@ -38,7 +38,7 @@ export default function ContactContent() {
             <ul className="mt-12 space-y-5 text-sm">
               <li className="flex items-center gap-4">
                 <Phone size={16} className="text-gold" aria-hidden />
-                <a href="tel:+919800000000" className="hover:text-gold">
+                <a href={`tel:${company.phoneE164}`} className="hover:text-gold">
                   {company.phone}
                 </a>
               </li>

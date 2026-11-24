@@ -33,8 +33,9 @@ export default function Navbar() {
       )}
     >
       <nav className="container-luxe flex items-center justify-between" aria-label="Primary">
-        <Link href="/" aria-label="White Collar Realty — home" data-cursor="Home">
+        <Link href="/" data-cursor="Home">
           <Logo />
+          <span className="sr-only"> — home</span>
         </Link>
 
         <ul className="hidden items-center gap-8 lg:flex">

@@ -11,7 +11,7 @@ export default function Logo({ className, compact = false }: { className?: strin
       </svg>
       {!compact && (
         <span className="flex flex-col leading-none">
-          <span className="font-serif text-[15px] font-medium tracking-[0.28em]">WHITE COLLAR</span>
+          <span className="font-serif text-[15px] font-medium tracking-[0.28em]">WHITE COLLAR</span>{" "}
           <span className="mt-1 text-[8.5px] tracking-[0.62em] text-gold/80">REALTY</span>
         </span>
       )}

@@ -3,6 +3,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { company, navLinks, project } from "@/data/project";
 import Logo from "./Logo";
 import { socialIconMap } from "./SocialIcons";
+import { DemoOnly } from "./DemoNote";
 
 export default function Footer() {
   return (
@@ -21,7 +22,7 @@ export default function Footer() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={s.label}
+                    aria-label={`${company.name} on ${s.label} (opens in a new tab)`}
                     className="flex h-10 w-10 items-center justify-center rounded-full border border-ivory/15 text-ivory/70 transition-colors hover:border-gold hover:text-gold"
                   >
                     <Icon />
@@ -58,7 +59,7 @@ export default function Footer() {
               </li>
               <li className="flex gap-3">
                 <Phone size={16} className="mt-0.5 shrink-0 text-gold" aria-hidden />
-                <a href="tel:+919800000000" className="hover:text-gold">
+                <a href={`tel:${company.phoneE164}`} className="hover:text-gold">
                   {company.phone}
                 </a>
               </li>
@@ -70,14 +71,14 @@ export default function Footer() {
               </li>
             </ul>
             <p className="mt-6 text-xs text-stone">
-              RERA: {project.rera} <span className="text-stone/70">({project.reraNote})</span>
+              RERA: {project.rera} <DemoOnly><span className="text-ivory/60"> ({project.reraNote})</span></DemoOnly>
             </p>
           </div>
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-white/5 pt-8 text-xs text-stone md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} {company.name}. All rights reserved.</p>
-          <p className="max-w-xl md:text-right">{company.disclaimer}</p>
+          <DemoOnly><p className="max-w-xl md:text-right">{company.disclaimer}</p></DemoOnly>
         </div>
       </div>
     </footer>

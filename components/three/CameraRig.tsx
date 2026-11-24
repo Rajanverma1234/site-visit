@@ -11,7 +11,8 @@ import { tourLive } from "@/lib/tourLive";
 /**
  * Hero camera: orbits around the towers following the mouse (smoothly lerped),
  * and dollies in as `progress` (0..1, driven by ScrollTrigger) increases.
- * On touch devices it drifts slowly on its own instead.
+ * On touch devices a horizontal drag orbits the towers (vertical swipes still scroll);
+ * until the visitor drags, the camera drifts gently. Reduced motion: no automatic motion.
  */
 export function HeroCameraRig({
   mouse,
@@ -24,20 +25,55 @@ export function HeroCameraRig({
   touch: boolean;
   reducedMotion: boolean;
 }) {
-  const { camera, size } = useThree();
+  const { camera, size, gl } = useThree();
   const target = useRef(new THREE.Vector3(0, 8, 0));
   const current = useRef({ az: 0, el: 0, p: 0 });
+  const drag = useRef({ az: 0, used: false, startX: 0, startAz: 0, active: false });
+
+  // Touch: horizontal drag to orbit. `touch-action: pan-y` keeps vertical page scrolling native.
+  useEffect(() => {
+    if (!touch) return;
+    const el = gl.domElement;
+    el.style.touchAction = "pan-y";
+    const down = (e: PointerEvent) => {
+      drag.current.active = true;
+      drag.current.startX = e.clientX;
+      drag.current.startAz = drag.current.az;
+    };
+    const move = (e: PointerEvent) => {
+      if (!drag.current.active) return;
+      const dx = (e.clientX - drag.current.startX) / el.clientWidth;
+      drag.current.az = THREE.MathUtils.clamp(drag.current.startAz - dx * 1.6, -0.9, 0.9);
+      drag.current.used = true;
+    };
+    const up = () => (drag.current.active = false);
+    el.addEventListener("pointerdown", down);
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerup", up);
+    el.addEventListener("pointercancel", up);
+    return () => {
+      el.removeEventListener("pointerdown", down);
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerup", up);
+      el.removeEventListener("pointercancel", up);
+    };
+  }, [gl, touch]);
 
   useFrame((state, delta) => {
     const c = current.current;
     const t = state.clock.elapsedTime;
     const k = 1 - Math.pow(0.0015, delta); // frame-rate independent smoothing
 
-    const wantAz = reducedMotion ? 0 : touch ? Math.sin(t * 0.12) * 0.35 : mouse.current.nx * 0.42;
-    const wantEl = reducedMotion ? 0 : touch ? 0 : -mouse.current.ny * 0.12;
+    let wantAz = 0;
+    let wantEl = 0;
+    if (touch) wantAz = drag.current.used ? drag.current.az : reducedMotion ? 0 : Math.sin(t * 0.12) * 0.35;
+    else if (!reducedMotion) {
+      wantAz = mouse.current.nx * 0.42;
+      wantEl = -mouse.current.ny * 0.12;
+    }
     c.az += (wantAz - c.az) * k;
     c.el += (wantEl - c.el) * k;
-    c.p += (progress.current - c.p) * k;
+    c.p += ((reducedMotion ? 0 : progress.current) - c.p) * k;
 
     // Narrow screens need the camera further back to fit both towers.
     const aspectBoost = size.width < 768 ? 1.55 : 1;

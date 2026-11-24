@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import TourExperience from "@/components/tour/TourExperience";
-import SceneLoader from "@/components/ui/SceneLoader";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Virtual Tour",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function VirtualTourPage() {
   return (
-    <Suspense fallback={<SceneLoader label="Unlocking residence" />}>
+    <Suspense fallback={<div className="fixed inset-0 bg-charcoal"><Image src="/posters/tour.jpg" alt="" fill priority sizes="100vw" quality={65} className="object-cover" /></div>}>
       <TourExperience />
     </Suspense>
   );

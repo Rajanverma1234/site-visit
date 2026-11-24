@@ -8,7 +8,8 @@ const config: Config = {
       colors: {
         charcoal: { DEFAULT: "#0E0E10", 800: "#16161A", 700: "#1E1E23", 600: "#2A2A30" },
         ivory: { DEFAULT: "#F5F1EA", 200: "#EDE7DC", 300: "#E2DACB" },
-        gold: { DEFAULT: "#C8A96A", light: "#DCC48F", dark: "#A88A4E" },
+        // gold.dark darkened from #A88A4E to #7A5F2A so small text on ivory meets WCAG AA (≥4.5:1).
+        gold: { DEFAULT: "#C8A96A", light: "#DCC48F", dark: "#7A5F2A" },
         stone: { DEFAULT: "#8A8580", light: "#B5B0AA" },
       },
       fontFamily: {

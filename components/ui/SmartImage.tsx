@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
  */
 export default function SmartImage({ className, wrapperClassName, alt, ...props }: ImageProps & { wrapperClassName?: string }) {
   const [failed, setFailed] = useState(false);
-  const [loaded, setLoaded] = useState(false);
 
   return (
     <div className={cn("relative overflow-hidden bg-gradient-to-br from-charcoal-600 via-[#2b251c] to-[#4a3d26]", wrapperClassName)}>
@@ -24,8 +23,8 @@ export default function SmartImage({ className, wrapperClassName, alt, ...props 
         <Image
           alt={alt}
           {...props}
-          className={cn("object-cover transition-opacity duration-700", loaded ? "opacity-100" : "opacity-0", className)}
-          onLoad={() => setLoaded(true)}
+          // No fade-in gating: hiding the image until hydration would delay LCP. The gradient behind covers loading.
+          className={cn("object-cover", className)}
           onError={() => setFailed(true)}
         />
       )}

@@ -5,18 +5,21 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { testimonials } from "@/data/project";
 import { Reveal } from "@/components/ui/Reveal";
+import { DemoOnly } from "@/components/ui/DemoNote";
+import { useReducedMotion } from "@/hooks/useMediaQuery";
 
 /** Auto-advancing testimonial carousel (pauses on hover / focus). */
 export default function Testimonials() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const n = testimonials.length;
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || reducedMotion) return;
     const id = setInterval(() => setIndex((i) => (i + 1) % n), 6500);
     return () => clearInterval(id);
-  }, [paused, n]);
+  }, [paused, n, reducedMotion]);
 
   const t = testimonials[index];
 
@@ -32,7 +35,7 @@ export default function Testimonials() {
                 <blockquote className="font-serif text-2xl font-light leading-snug md:text-4xl">“{t.quote}”</blockquote>
                 <figcaption className="mt-8">
                   <span className="block text-sm font-medium tracking-wide">{t.name}</span>
-                  <span className="mt-1 block text-xs uppercase tracking-[0.2em] text-stone">{t.role}</span>
+                  <span className="mt-1 block text-xs uppercase tracking-[0.2em] text-charcoal/70">{t.role}</span>
                 </figcaption>
               </motion.figure>
             </AnimatePresence>
@@ -52,7 +55,9 @@ export default function Testimonials() {
               <ChevronRight size={16} />
             </button>
           </div>
-          <p className="mt-8 text-[10px] uppercase tracking-[0.2em] text-stone">Testimonials are fictional and for demonstration only.</p>
+          <DemoOnly>
+            <p className="mt-8 text-[11px] uppercase tracking-[0.2em] text-charcoal/70">Testimonials are fictional and for demonstration only.</p>
+          </DemoOnly>
         </Reveal>
       </div>
     </section>

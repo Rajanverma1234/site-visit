@@ -1,13 +1,14 @@
 "use client";
 
-import { Canvas, type ThreeEvent } from "@react-three/fiber";
+import { Canvas, useThree, type ThreeEvent } from "@react-three/fiber";
 import { AdaptiveDpr, ContactShadows, OrbitControls } from "@react-three/drei";
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { FloorInfo } from "@/data/units";
 import { statusColors } from "@/data/units";
 import { FrameloopController } from "./CameraRig";
 import { GoldenHourEnvironment } from "./Environment";
+import SceneReady from "./SceneReady";
 
 const FH = 0.42; // floor height
 const W = 4.4; // tower width
@@ -22,6 +23,8 @@ export interface FloorSelectorProps {
   onSelect: (floor: number) => void;
   active: boolean;
   touch: boolean;
+  reducedMotion?: boolean;
+  onReady?: () => void;
 }
 
 const GOLD = new THREE.Color("#C8A96A");
@@ -105,7 +108,7 @@ function UnitMarkers({ floors }: { floors: FloorInfo[] }) {
   );
 }
 
-function Tower({ floors, hovered, selected, isMatch, onHover, onSelect }: Omit<FloorSelectorProps, "active" | "touch">) {
+function Tower({ floors, hovered, selected, isMatch, onHover, onSelect }: Omit<FloorSelectorProps, "active" | "touch" | "reducedMotion" | "onReady">) {
   return (
     <group position={[0, 0, 0]}>
       {floors.map((f) => {
@@ -141,7 +144,7 @@ function Tower({ floors, hovered, selected, isMatch, onHover, onSelect }: Omit<F
 }
 
 export default function FloorSelector3D(props: FloorSelectorProps) {
-  const { active, touch, ...towerProps } = props;
+  const { active, touch, reducedMotion, onReady, ...towerProps } = props;
   return (
     <Canvas dpr={[1, 1.5]} camera={{ fov: 30, position: [21, 14, 33] }} gl={{ antialias: true }} onPointerMissed={() => props.onHover(null)}>
       <FrameloopController active={active} />
@@ -151,6 +154,8 @@ export default function FloorSelector3D(props: FloorSelectorProps) {
       <directionalLight position={[-16, 8, -10]} intensity={0.6} color="#9fb3d9" />
       <GoldenHourEnvironment />
       <Tower {...towerProps} />
+      <SceneReady onReady={onReady} />
+      <TouchScrollFix touch={touch} />
       <ContactShadows position={[0, -0.39, 0]} opacity={0.6} scale={20} blur={2.6} far={6} frames={1} />
       <OrbitControls
         target={[0, 8.4, 0]}
@@ -158,11 +163,25 @@ export default function FloorSelector3D(props: FloorSelectorProps) {
         enablePan={false}
         minPolarAngle={Math.PI / 3}
         maxPolarAngle={Math.PI / 1.9}
-        autoRotate={props.hovered === null && !touch}
+        autoRotate={props.hovered === null && !touch && !reducedMotion}
         autoRotateSpeed={0.4}
         enableDamping
         rotateSpeed={0.5}
       />
     </Canvas>
   );
+}
+
+/**
+ * OrbitControls sets `touch-action: none`, which would trap phone users on a canvas that fills
+ * most of the screen. Restore `pan-y` so vertical swipes scroll the page and horizontal drags rotate.
+ */
+function TouchScrollFix({ touch }: { touch: boolean }) {
+  const gl = useThree((s) => s.gl);
+  useEffect(() => {
+    if (!touch) return;
+    const id = window.setTimeout(() => (gl.domElement.style.touchAction = "pan-y"), 0);
+    return () => window.clearTimeout(id);
+  }, [gl, touch]);
+  return null;
 }

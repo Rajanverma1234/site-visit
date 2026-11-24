@@ -10,6 +10,7 @@ import SmartImage from "@/components/ui/SmartImage";
 import Magnetic from "@/components/ui/Magnetic";
 import { Reveal } from "@/components/ui/Reveal";
 import { CRORE } from "@/lib/format";
+import { IS_DEMO } from "@/lib/site";
 
 export function generateStaticParams() {
   return residences.map((r) => ({ slug: r.slug }));
@@ -105,7 +106,7 @@ export default function ResidenceDetailPage({ params }: { params: { slug: string
           <div>
             <p className="eyebrow !text-gold-dark">Price breakup</p>
             <h2 className="mt-5 text-5xl md:text-6xl">Transparent pricing.</h2>
-            <p className="mt-6 max-w-sm text-charcoal/60">Demo values for illustration. Final pricing depends on floor, view and payment plan.</p>
+            <p className="mt-6 max-w-sm text-charcoal/70">{IS_DEMO ? "Demo values for illustration. " : ""}Final pricing depends on floor, view and payment plan.</p>
           </div>
           {totals && r.priceLines ? (
             <table className="w-full text-left text-sm">
@@ -169,7 +170,7 @@ export default function ResidenceDetailPage({ params }: { params: { slug: string
 function Stat({ label, value, gold }: { label: string; value: string; gold?: boolean }) {
   return (
     <div>
-      <p className="text-[10px] uppercase tracking-[0.2em] text-ivory/50">{label}</p>
+      <p className="text-[10px] uppercase tracking-[0.2em] text-ivory/65">{label}</p>
       <p className={`mt-1 font-serif text-2xl ${gold ? "text-gold" : "text-ivory"}`}>{value}</p>
     </div>
   );

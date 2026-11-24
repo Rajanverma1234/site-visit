@@ -7,9 +7,30 @@ import { places, type Place } from "@/data/locations";
 import { project } from "@/data/project";
 import { cn } from "@/lib/utils";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
-import SceneLoader from "@/components/ui/SceneLoader";
+import LazyScene from "@/components/ui/LazyScene";
 
-const LocationMap = dynamic(() => import("./LocationMap"), { ssr: false, loading: () => <SceneLoader label="Loading map" /> });
+const LocationMap = dynamic(() => import("./LocationMap"), { ssr: false, loading: () => null });
+
+/** Lightweight stylised placeholder shown until Leaflet + tiles load. */
+function MapPoster() {
+  return (
+    <div className="absolute inset-0 bg-[#121316]">
+      <svg className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 800 600" aria-hidden>
+        <defs>
+          <pattern id="mapgrid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M40 0H0V40" fill="none" stroke="rgba(245,241,234,0.05)" />
+          </pattern>
+        </defs>
+        <rect width="800" height="600" fill="url(#mapgrid)" />
+        <path d="M-20 420 C 180 380, 300 300, 420 300 S 640 220, 840 160" fill="none" stroke="rgba(245,241,234,0.14)" strokeWidth="6" />
+        <path d="M380 -20 C 400 160, 420 260, 420 300 S 460 520, 480 640" fill="none" stroke="rgba(245,241,234,0.1)" strokeWidth="4" />
+        <path d="M120 -20 L 260 640" stroke="rgba(245,241,234,0.06)" strokeWidth="3" />
+        <circle cx="420" cy="300" r="34" fill="rgba(200,169,106,0.18)" />
+        <circle cx="420" cy="300" r="9" fill="#C8A96A" stroke="#F5F1EA" strokeWidth="2" />
+      </svg>
+    </div>
+  );
+}
 
 const icons: Record<Place["category"], typeof MapPin> = {
   Transit: TrainFront,
@@ -71,7 +92,9 @@ export default function Location() {
           </ul>
 
           <div className="relative h-[480px] overflow-hidden rounded-sm border border-white/10 lg:h-auto lg:min-h-[600px]" data-lenis-prevent>
-            <LocationMap active={active} />
+            <LazyScene posterAlt="Map of Golf Course Road, Gurugram" posterNode={<MapPoster />} label="Loading map">
+              {({ onReady }) => <LocationMap active={active} onReady={onReady} />}
+            </LazyScene>
             {active && (
               <div className="glass-panel pointer-events-none absolute bottom-5 left-5 z-[500] p-5">
                 <p className="text-[10px] uppercase tracking-luxe text-gold">{active.category}</p>

@@ -7,16 +7,24 @@ export const company = {
   name: "White Collar Realty",
   wordmark: "WHITE COLLAR REALTY",
   tagline: "Where Ambition Comes Home",
-  phone: "+91 98XXXXXX00",
-  /** Number used for wa.me links (digits only, with country code). Demo placeholder. */
-  whatsapp: "919800000000",
+  /**
+   * ONE phone number drives everything: the displayed text, tel: links and wa.me links.
+   * TODO(client): replace the demo placeholder with the real sales number.
+   */
+  phoneE164: "+919800000000",
+  phone: "+91 98000 00000",
+  /** Digits only (wa.me format) — derived from phoneE164, don't edit separately. */
+  get whatsapp() {
+    return this.phoneE164.replace(/\D/g, "");
+  },
   email: "sales@whitecollarrealty.demo",
   address: "Sales Gallery, Golf Course Road, Sector 54, Gurugram, Haryana 122011",
+  /** TODO(client): replace placeholder handles with the real social accounts. */
   socials: [
-    { label: "Instagram", href: "https://instagram.com" },
-    { label: "Facebook", href: "https://facebook.com" },
-    { label: "LinkedIn", href: "https://linkedin.com" },
-    { label: "YouTube", href: "https://youtube.com" },
+    { label: "Instagram", href: "https://instagram.com/whitecollarrealty" },
+    { label: "Facebook", href: "https://facebook.com/whitecollarrealty" },
+    { label: "LinkedIn", href: "https://linkedin.com/company/whitecollarrealty" },
+    { label: "YouTube", href: "https://youtube.com/@whitecollarrealty" },
   ],
   disclaimer: "This is a concept demo. Project, images and prices are illustrative only.",
 } as const;
@@ -98,11 +106,5 @@ export const testimonials = [
       "The team walked my parents through the residence in 3D on their TV. Quiet, unhurried, genuinely luxurious — exactly like the building itself.",
     name: "Dr. Kavya Sethi (fictional)",
     role: "Cardiologist, Gurugram",
-  },
-  {
-    quote:
-      "I compared six launches on Golf Course Road. The Sovereign was the only one I could truly 'walk through' before committing. That made the decision easy.",
-    name: "Vikram Oberoi (fictional)",
-    role: "Investment banker, Mumbai",
   },
 ] as const;
