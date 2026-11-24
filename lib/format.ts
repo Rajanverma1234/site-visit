@@ -35,3 +35,22 @@ export function formatArea(sqft: number): string {
 function trim(s: string): string {
   return s.includes(".") ? s.replace(/\.?0+$/, "") : s;
 }
+
+/** 40 → "40th", 1 → "1st", 42 → "42nd" */
+export function ordinal(n: number): string {
+  const s = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+const ONES = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+const TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+
+/** 40 → "forty", 9 → "nine" (0–99; larger numbers fall back to digits). */
+export function numberWords(n: number, capitalise = false): string {
+  let w: string;
+  if (n < 20) w = ONES[n];
+  else if (n < 100) w = TENS[Math.floor(n / 10)] + (n % 10 ? "-" + ONES[n % 10] : "");
+  else w = String(n);
+  return capitalise ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+}

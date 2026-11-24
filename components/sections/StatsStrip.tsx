@@ -3,7 +3,10 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { project, stats } from "@/data/project";
+import { project } from "@/data/project";
+import { headlineStats } from "@/data/inventory";
+import { images } from "@/data/images";
+import SlotImage from "@/components/ui/SlotImage";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
 import { IS_DEMO } from "@/lib/site";
 
@@ -47,6 +50,10 @@ export default function StatsStrip() {
               <p className="eyebrow !text-gold-dark">The Sovereign</p>
               <span className="gold-line mt-5 block" />
             </Reveal>
+            <figure className="mt-10 max-w-md">
+              <SlotImage slot={images.view} sizes="(max-width: 768px) 100vw, 40vw" />
+              <figcaption className="mt-3 text-xs text-charcoal/70">The view from a high-floor residence across the DLF Golf Course.</figcaption>
+            </figure>
           </div>
           <div className="md:col-span-7">
             <RevealText lines={["Two towers of glass and light,", "rising above the greens."]} className="text-4xl leading-[1.05] md:text-6xl" />
@@ -60,11 +67,11 @@ export default function StatsStrip() {
         </div>
 
         <div ref={ref} className="mt-24 grid grid-cols-2 border-t border-charcoal/10 md:grid-cols-4">
-          {stats.map((s, i) => (
+          {headlineStats().map((s, i) => (
             <div key={s.label} className={`py-10 md:py-14 ${i > 0 ? "md:border-l" : ""} ${i % 2 === 1 ? "border-l" : ""} border-charcoal/10 px-4 md:px-8`}>
               <p className="font-serif text-6xl font-light text-charcoal md:text-8xl">
                 <span data-count={s.value}>{s.value}</span>
-                {s.suffix}
+                
               </p>
               <p className="mt-3 text-[11px] uppercase tracking-luxe text-gold-dark">{s.label}</p>
             </div>

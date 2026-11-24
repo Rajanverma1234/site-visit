@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { MapContainer, Marker, TileLayer, Tooltip, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { places, type Place } from "@/data/locations";
+import { places, type Place } from "@/data/project";
 import { project } from "@/data/project";
 
 /** Moves the map whenever the active place changes. */

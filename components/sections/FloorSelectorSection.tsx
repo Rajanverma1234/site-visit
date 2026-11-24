@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Eye, X } from "lucide-react";
-import { floorLabel, inventory, statusColors, type FloorInfo, type TowerId, type Unit } from "@/data/units";
+import { images } from "@/data/images";
+import { floorLabel, inventory, statusColors, statusLabels, type FloorInfo, type TowerId, type Unit } from "@/data/inventory";
 import type { UnitType } from "@/data/residences";
 import { formatArea, formatINR } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -18,7 +19,7 @@ const FloorSelector3D = dynamic(() => import("@/components/three/FloorSelector")
 const TYPE_FILTERS: UnitType[] = ["4 BHK", "5 BHK", "Penthouse"];
 
 function unitMatches(u: Unit, types: UnitType[], availableOnly: boolean) {
-  return (types.length === 0 || types.includes(u.type)) && (!availableOnly || u.status === "Available");
+  return (types.length === 0 || types.includes(u.configuration)) && (!availableOnly || u.status === "available");
 }
 
 const isResidential = (f: FloorInfo) => f.kind === "residential" || f.kind === "penthouse";
@@ -161,7 +162,7 @@ export default function FloorSelectorSection() {
         <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:gap-6">
           {/* 3D tower */}
           <div ref={wrap} className="relative h-[460px] overflow-hidden rounded-sm border border-white/10 bg-gradient-to-b from-[#1b1d24] to-charcoal sm:h-[560px] md:h-[680px]" data-cursor={hovered ? "Select" : "Drag"}>
-            <LazyScene poster="/posters/floors.jpg" posterAlt="3D model of Tower A with floor-by-floor availability" label="Loading tower">
+            <LazyScene poster={images.posters.floorSelector.src!} posterAlt={images.posters.floorSelector.alt} label="Loading tower">
               {({ active, onReady }) => (
                 <FloorSelector3D
                   floors={floors}
@@ -180,10 +181,10 @@ export default function FloorSelectorSection() {
 
             {/* Legend */}
             <div className="pointer-events-none absolute left-4 top-4 space-y-2 rounded-sm bg-charcoal/60 p-3 text-[11px] text-ivory/85 backdrop-blur-sm">
-              {Object.entries(statusColors).map(([s, c]) => (
+              {(Object.keys(statusColors) as Unit["status"][]).map((s) => (
                 <div key={s} className="flex items-center gap-2">
-                  <span className="h-2 w-4" style={{ background: c }} />
-                  {s}
+                  <span className="h-2 w-4" style={{ background: statusColors[s] }} />
+                  {statusLabels[s]}
                 </div>
               ))}
             </div>
@@ -222,7 +223,7 @@ export default function FloorSelectorSection() {
               const res = isResidential(f);
               const match = res && isMatch(f);
               const lbl = floorLabel(f.floor);
-              const avail = f.units.filter((u) => u.status === "Available").length;
+              const avail = f.units.filter((u) => u.status === "available").length;
               return (
                 <button
                   key={f.floor}
@@ -292,20 +293,20 @@ export default function FloorSelectorSection() {
                   return (
                     <li key={u.id} className={cn("border border-white/10 p-5 transition-opacity", !match && "opacity-60")}>
                       <div className="flex items-center justify-between">
-                        <p className="font-serif text-2xl">{u.type}</p>
+                        <p className="font-serif text-2xl">{u.configuration}</p>
                         <StatusBadge status={u.status} />
                       </div>
                       <dl className="mt-4 grid grid-cols-2 gap-y-3 text-sm">
                         <dt className="text-ivory/65">Unit</dt>
                         <dd className="text-right">{u.id}</dd>
-                        <dt className="text-ivory/65">Size</dt>
-                        <dd className="text-right">{formatArea(u.area)}</dd>
+                        <dt className="text-ivory/65">Carpet area</dt>
+                        <dd className="text-right">{formatArea(u.carpetArea)}</dd>
                         <dt className="text-ivory/65">Price</dt>
                         <dd className="text-right text-gold">{u.price ? `${formatINR(u.price)}*` : "On request"}</dd>
                         <dt className="text-ivory/65">View</dt>
-                        <dd className="text-right">{u.view}</dd>
+                        <dd className="text-right">{u.facing}</dd>
                       </dl>
-                      <Link href={`/virtual-tour?unit=${u.id}`} className={cn("mt-5 w-full !whitespace-normal !text-[10.5px]", u.status === "Booked" ? "btn-ghost" : "btn-gold")} data-cursor="Enter">
+                      <Link href={`/virtual-tour?unit=${u.id}`} className={cn("mt-5 w-full !whitespace-normal !text-[10.5px]", u.status === "booked" ? "btn-ghost" : "btn-gold")} data-cursor="Enter">
                         <Eye size={14} aria-hidden /> Take Virtual Tour of this Residence
                       </Link>
                     </li>
@@ -333,7 +334,7 @@ function FloorTooltip({ info }: { info: FloorInfo }) {
       </>
     );
   }
-  const avail = info.units.filter((u) => u.status === "Available").length;
+  const avail = info.units.filter((u) => u.status === "available").length;
   return (
     <>
       <div className="flex items-baseline justify-between">
@@ -344,9 +345,9 @@ function FloorTooltip({ info }: { info: FloorInfo }) {
         {info.units.map((u) => (
           <li key={u.id} className="flex items-center justify-between gap-2">
             <span className="text-ivory/85">
-              {u.type} · {u.view.split(" ")[0]}
+              {u.configuration} · {u.facing.split(" ")[0]}
             </span>
-            <span style={{ color: statusColors[u.status] }}>{u.status}</span>
+            <span style={{ color: statusColors[u.status] }}>{statusLabels[u.status]}</span>
           </li>
         ))}
       </ul>
@@ -357,11 +358,11 @@ function FloorTooltip({ info }: { info: FloorInfo }) {
 
 function StatusBadge({ status }: { status: Unit["status"] }) {
   // Booked grey is lightened for text contrast on the dark panel.
-  const color = status === "Booked" ? "#A8A39D" : statusColors[status];
+  const color = status === "booked" ? "#A8A39D" : statusColors[status];
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-[0.15em]" style={{ borderColor: color, color }}>
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
-      {status}
+      {statusLabels[status]}
     </span>
   );
 }

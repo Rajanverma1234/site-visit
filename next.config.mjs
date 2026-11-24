@@ -2,7 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+    // All images are local (/public/images). To use a CDN, add it here, e.g.
+    // remotePatterns: [{ protocol: "https", hostname: "cdn.example.com" }],
     // Modern formats first; next/image falls back automatically.
     formats: ["image/avif", "image/webp"],
     // Cap generated widths at 1920 (the default goes up to 3840).

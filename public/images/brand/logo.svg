@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="260" height="64" fill="none">
+  <!-- PLACEHOLDER developer logo. Replace with the client's master logo (SVG preferred). -->
+  <g stroke="#C8A96A">
+    <rect x="2" y="2" width="60" height="60" stroke-width="2"/>
+    <path d="M16 48V22l8 12 8-18 8 18 8-12v26" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M16 53h32" stroke-width="2"/>
+  </g>
+  <text x="78" y="32" fill="#C8A96A" font-family="Georgia, serif" font-size="20" letter-spacing="5">WHITE COLLAR</text>
+  <text x="78" y="52" fill="#C8A96A" font-family="Arial, sans-serif" font-size="11" letter-spacing="9">REALTY</text>
+</svg>

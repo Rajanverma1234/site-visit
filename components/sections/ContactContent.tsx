@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Download, Mail, MapPin, Phone, Video } from "lucide-react";
 import { company, project } from "@/data/project";
-import { findUnit } from "@/data/units";
+import { findUnit } from "@/data/inventory";
 import LeadForm from "@/components/ui/LeadForm";
+import { BrochureButton } from "@/components/ui/BrochureRequest";
 import Magnetic from "@/components/ui/Magnetic";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
 import { whatsappLink } from "@/components/ui/WhatsAppButton";
@@ -31,7 +32,7 @@ export default function ContactContent() {
             </p>
             {unit && (
               <p className="mt-6 inline-block border border-gold/40 px-4 py-2 text-sm text-gold">
-                Enquiring about residence {unit.id} · {unit.type} · Floor {unit.floor}
+                Enquiring about residence {unit.id} · {unit.configuration} · Floor {unit.floor}
               </p>
             )}
 
@@ -60,9 +61,9 @@ export default function ContactContent() {
 
             <div className="mt-12 flex flex-wrap gap-4">
               <Magnetic>
-                <Link href="/brochure?print=1" className="btn-ghost" data-cursor="Download">
+                <BrochureButton className="btn-ghost">
                   <Download size={14} aria-hidden /> Download Brochure
-                </Link>
+                </BrochureButton>
               </Magnetic>
               <Magnetic>
                 <a href={whatsappLink(`Hello ${company.name}, I'd like to book a ${mode.toLowerCase()} of ${project.shortName}${unit ? ` (residence ${unit.id})` : ""}.`)} target="_blank" rel="noopener noreferrer" className="btn-ghost" data-cursor="Chat">
@@ -74,7 +75,7 @@ export default function ContactContent() {
         </div>
 
         <Reveal className="border border-white/10 bg-charcoal-800/60 p-8 backdrop-blur md:p-12">
-          <LeadForm defaultMode={mode} defaultInterest={unit?.type} />
+          <LeadForm defaultMode={mode} defaultInterest={unit?.configuration} unit={unit?.id} />
         </Reveal>
       </div>
     </section>

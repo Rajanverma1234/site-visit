@@ -1,4 +1,4 @@
-import { company } from "@/data/project";
+import { company, project } from "@/data/project";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
 import LeadForm from "@/components/ui/LeadForm";
 
@@ -15,7 +15,7 @@ export default function FinalCTA() {
           <RevealText lines={["Your private", "viewing awaits."]} className="mt-5 text-5xl leading-[1] md:text-7xl" />
           <Reveal delay={0.2}>
             <p className="mt-8 max-w-md text-ivory/60">
-              Choose a guided video-call walkthrough from anywhere in the world, or a chauffeured site visit to our sales gallery on Golf Course Road.
+              Choose a guided video-call walkthrough from anywhere in the world, or a chauffeured site visit to our sales gallery on {project.location.split(",")[0]}.
             </p>
             <a href={`tel:${company.phoneE164}`} className="mt-10 block font-serif text-2xl text-gold hover:text-gold-light">{company.phone}</a>
             <p className="mt-1 text-sm text-ivory/60">{company.email}</p>

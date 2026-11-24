@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { Building2, Clock, GraduationCap, HeartPulse, MapPin, Plane, ShoppingBag, TrainFront, Trees } from "lucide-react";
-import { places, type Place } from "@/data/locations";
+import { places, type Place } from "@/data/project";
 import { project } from "@/data/project";
 import { cn } from "@/lib/utils";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
@@ -92,7 +92,7 @@ export default function Location() {
           </ul>
 
           <div className="relative h-[480px] overflow-hidden rounded-sm border border-white/10 lg:h-auto lg:min-h-[600px]" data-lenis-prevent>
-            <LazyScene posterAlt="Map of Golf Course Road, Gurugram" posterNode={<MapPoster />} label="Loading map">
+            <LazyScene posterAlt={`Map of ${project.location}`} posterNode={<MapPoster />} label="Loading map">
               {({ onReady }) => <LocationMap active={active} onReady={onReady} />}
             </LazyScene>
             {active && (

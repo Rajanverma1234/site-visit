@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { amenities } from "@/data/amenities";
-import SmartImage from "@/components/ui/SmartImage";
+import { amenities } from "@/data/project";
+import SlotImage from "@/components/ui/SlotImage";
+import { amenitiesCopy } from "@/data/project";
+import { allUnits } from "@/data/inventory";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,12 +49,12 @@ export default function Amenities() {
           <div>
             <p className="eyebrow !text-gold-dark">Amenities</p>
             <h2 className="mt-5 text-5xl leading-[1] md:text-7xl">
-              A private club,
+              {amenitiesCopy.headline[0]}
               <br />
-              <em className="text-gold-dark">forty floors up.</em>
+              <em className="text-gold-dark">{amenitiesCopy.headline[1]}</em>
             </h2>
           </div>
-          <p className="max-w-sm text-charcoal/60">Nine curated experiences, reserved exclusively for 164 families. Scroll to stroll through them.</p>
+          <p className="max-w-sm text-charcoal/60">{amenitiesCopy.intro(allUnits.length)}</p>
         </div>
 
         <div className="no-scrollbar overflow-x-auto lg:overflow-visible">
@@ -61,16 +63,9 @@ export default function Amenities() {
               <article
                 key={a.title}
                 data-cursor="View"
-                className="group relative h-[62vh] max-h-[620px] min-h-[420px] w-[78vw] shrink-0 overflow-hidden rounded-sm sm:w-[46vw] lg:w-[30vw]"
+                className="group relative aspect-[4/5] max-h-[72vh] w-[78vw] shrink-0 overflow-hidden rounded-sm sm:w-[46vw] lg:w-[30vw]"
               >
-                <SmartImage
-                  src={a.image}
-                  alt={a.title}
-                  fill
-                  sizes="(max-width: 640px) 80vw, (max-width: 1024px) 46vw, 30vw"
-                  wrapperClassName="absolute inset-0"
-                  className="scale-100 transition-transform duration-[2.4s] ease-luxe group-hover:scale-110"
-                />
+                <SlotImage slot={a.image} cover sizes="(max-width: 640px) 80vw, (max-width: 1024px) 46vw, 30vw" tagPosition="top-right" imgClassName="scale-100 transition-transform duration-[2.4s] ease-luxe group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-7 text-ivory">
                   <p className="font-serif text-sm text-gold">{String(i + 1).padStart(2, "0")} — {a.kicker}</p>

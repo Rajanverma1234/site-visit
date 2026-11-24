@@ -1,0 +1,122 @@
+{
+  "/images/placeholder/amenity-cigar-lounge.jpg": {
+    "width": 1600,
+    "height": 1069,
+    "blurDataURL": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAABQAgCdASoQAAsAA4BaJbACdAYt9thbt+UZ5wAA/vXNnfsMAr9tK+hA0fyRPgRZz9XlnYKOgw+of26Kl4+ifK8U1XDjNVYnsWsBMbSHT0VznHme7uZTn9ZVL0Vnep1OnFMfPAAA"
+  },
+  "/images/placeholder/amenity-concierge.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAwAgCdASoQAAsAA4BaJYgCdAYv1lb5UagpgAD+qZdhONUZZdiC6WYuIFYxoaevvzH+H3YxaUKy6ASbgVxu9AO53/1E/c663+W0IJzspy0gjCQlM3tDdkqKxJ6gEJUreJ7Drq3H+b2HQKSgAAA="
+  },
+  "/images/placeholder/amenity-ev-charging.jpg": {
+    "width": 1600,
+    "height": 1065,
+    "blurDataURL": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAQAgCdASoQAAsAA4BaJZwAD5GtObwG27sAAPjWDFSqdz+jEyt4szLGELet9Ka4rRhc48d+w7M2IKDY9xFXxfcPNRW91F8vY/6xoCVoQKmEuAAA"
+  },
+  "/images/placeholder/amenity-golf-simulator.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAAAQAgCdASoQAAsAA4BaJZACdAEf5Wlu1UsAAP7oMrGOplnr6pk1Rf0NS5IgbWPFKQdcuPjLBx8clVxdPOuYT6rojYFd1cxAAAA="
+  },
+  "/images/placeholder/amenity-infinity-pool.jpg": {
+    "width": 1600,
+    "height": 1600,
+    "blurDataURL": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADQAQCdASoQABAAA4BaJbACdACRRXtzwAD8AqGXflFSOoYnRO85/kfa0xrZ4fYXRFIM6EGR3XiopmI6I+NAU4cgdeS6wP8Ymee6TYwlCov26tT0h7pNDwFgMG/Qh+NFRjr/HOo34IUIFqT+SrvMgAAA"
+  },
+  "/images/placeholder/amenity-private-theatre.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAACwAQCdASoQAAsAA4BaJYyzAAW4AXUAAP70+Wfxy0cYESXUAgHB+pS4EYeHNySL4AA="
+  },
+  "/images/placeholder/amenity-security.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAAAQAgCdASoQAAsAA4BaJQBWABxE1YxoIFgAAP7zyOjp2grxriwpoqey4VVjSn8fixcj+tQMTS35ILQuHKkbwzi5uVKP3/g+kuqO5e7TOUT1jdZ3riiBT9oFJYFyFRehz1n2gTNFSIAAAA=="
+  },
+  "/images/placeholder/amenity-sky-lounge.jpg": {
+    "width": 1600,
+    "height": 1200,
+    "blurDataURL": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAACwAQCdASoQAAwAA4BaJYwCdACVUPCgAP7y3TviYtAdX4RfRl341fhpr48WRPAEXPxticrQ7L2VaHZN+A+UhhOH5aq8709/v6t7RZaZkaza80KMpCiTvVxeAAA="
+  },
+  "/images/placeholder/amenity-spa.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADwAQCdASoQAAsAA4BaJYwCdACyWcQ3mYAA/dlvMBPOcwpVAjap5adQwTC6Wm/RsM7BaBzwowq4G3byTan5wkZdaMaKWeQbINSLqdX0YAA="
+  },
+  "/images/placeholder/experience-day-night.jpg": {
+    "width": 1600,
+    "height": 984,
+    "blurDataURL": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADwAQCdASoQAAoAA4BaJQBOiP/wPOQ6XgAA/eO8sNKQzHx/P1BqjGBxm2krtAFLLyiCSOxawcIxd4G74NPHnc317B7TlS8j/vYLfKdBkcmDzLOJIEXunGfsAAA="
+  },
+  "/images/placeholder/experience-floor-selector.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAABQAgCdASoQAAsAA4BaJQBOgMWWymYubIan9IAA/phVqDaPo8ecrpueJrzdjMRLwyNsO8/Mu7jxlJgzBbq+DZ/f3tZCDiMHWC6Z/2WL8X1fYHp194RLWdLwAAA="
+  },
+  "/images/placeholder/experience-walkthrough.jpg": {
+    "width": 1600,
+    "height": 1200,
+    "blurDataURL": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQAgCdASoQAAwAA4BaJQBOgMXXwMW+NaDgAP5hXvgUYiW0phkL/iN5WjEQiSNMntUiCHx1HyEjQz2ILYUJi70Xj/pSJGxwqhWfqcCzHhcz8lKkdLGLYJktlEYZ+wp8AAA="
+  },
+  "/images/placeholder/hero-day.jpg": {
+    "width": 1600,
+    "height": 1000,
+    "blurDataURL": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoQAAoAA4BaJQBOgCERiRFrOAD+5gjeIRMT7dkhSJMxfDuxdAA/UAkaRhN8wSsaxfnHFxdFxOxw/ed9GXdvgowAAAA="
+  },
+  "/images/placeholder/hero-mobile.jpg": {
+    "width": 860,
+    "height": 1864,
+    "blurDataURL": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAAAQAgCdASoHABAAA4BaJQBOgCHgsGZptFAAAP7p9U1cDbLoYaVnktQntaGtIPtxs+WXI/lS2KF5gJKtLmgAAA=="
+  },
+  "/images/placeholder/interior-4bhk.jpg": {
+    "width": 1600,
+    "height": 1088,
+    "blurDataURL": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQAgCdASoQAAsAA4BaJQAB8OUfJNP9N+wAAPz/ErGJBFSxXKwuL8PNOQna0GsrSf9TqMyMgsjiS+DVssobu8snw+UOdxiQwpqyhFCot2G6D6Y8Lz5LcCwH+FQhhM7MgAA="
+  },
+  "/images/placeholder/interior-5bhk.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAwAgCdASoQAAsAA4BaJZAC7AYuk8DJ/RQqAAD+CRCPLX3OJVYhefSMJmNPhfd4G8f2b1WVIVfXvBbpPRHZ6A+zQH8MowJdMPNhO8D554BEgGyAU/alXZipXXu64MAA"
+  },
+  "/images/placeholder/interior-penthouse.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAwAgCdASoQAAsAA4BaJQBOgMX1q0PvRdGQAAD+S4E3f/rEfFfMtL8ejHKfSZsxpI+iHE+R1Y7/PTCzI2OCXAhcNxSrMdcTbXkBo/tM5Cg5H6zFr8ZpraNS5kl4AA=="
+  },
+  "/images/placeholder/og.jpg": {
+    "width": 1200,
+    "height": 630,
+    "blurDataURL": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoQAAgAA4BaJZQCsAEUqkbEhbAA/u9p7cIDNlZ1VvB9THAh1X2O0NDrH0paL/QAAAA="
+  },
+  "/images/placeholder/past-project-aravalli.jpg": {
+    "width": 1600,
+    "height": 2133,
+    "blurDataURL": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAwAgCdASoMABAAA4BaJbACdAEWT59GycAKAAD2sM0uZNsx2nwHrHzUrV7IZ2HjsrITB43WXjVmyf8mJ8gNZYcaQIRklXW6w7gK+TfWqYPssv8FZ8AAAA=="
+  },
+  "/images/placeholder/past-project-cyber-crest.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAACwAQCdASoQAAsAA4BaJZQC7ACRta/gAP2txpiIYd6G1Zb79RrCYPpXm0c0hhG2Yw9srBuYn2rT6hDVEQDh3B8X4AA="
+  },
+  "/images/placeholder/past-project-meridian.jpg": {
+    "width": 1600,
+    "height": 1067,
+    "blurDataURL": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAQAgCdASoQAAsAA4BaJZACdADxHBtQ07oAAP73EWC4IVxI1dan9s5vHxs8idg+6+PYRyol8fiq9mJ95CVywkg1ahDdZT6ys/d6V9sSO0wHhdq0hmEUGvLv/mhRwAAA"
+  },
+  "/images/placeholder/poster-floor-selector.jpg": {
+    "width": 1200,
+    "height": 681,
+    "blurDataURL": "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAABQAQCdASoQAAkAA4BaJaQABDOAAP7y9jvuZ9MZ4/Szp3UxgAA="
+  },
+  "/images/placeholder/poster-virtual-tour.jpg": {
+    "width": 1600,
+    "height": 1000,
+    "blurDataURL": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAAAQAgCdASoQAAoAA4BaJYwCdACzbCVROrbQAP1T8ZiFUpiC/YvJKxMD8gseWwhv1Ts/YNWnQqQnuWvwxQed3JhkxVG2J08EQK7egdYAAAA="
+  },
+  "/images/placeholder/view-from-residence.jpg": {
+    "width": 1600,
+    "height": 1000,
+    "blurDataURL": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADQAQCdASoQAAoAA4BaJZACdAEUnr7/gAD+ZsvZ6+O71pxfiAET1sNvBRksGtD4npzWEHjzI0KgqvELygRQIuVc0aAAAA=="
+  }
+}

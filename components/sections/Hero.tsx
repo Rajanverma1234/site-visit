@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
 import { project } from "@/data/project";
+import { images } from "@/data/images";
 import { startingPrice } from "@/data/residences";
 import { formatINR } from "@/lib/format";
 import { useIsTouch } from "@/hooks/useMediaQuery";
@@ -61,9 +62,9 @@ export default function Hero() {
           <LazyScene
             mount="idle"
             priority
-            poster="/posters/hero-desktop.jpg"
-            posterMobile="/posters/hero-mobile.jpg"
-            posterAlt="The Sovereign's two glass towers at golden hour"
+            poster={images.hero.day.src!}
+            posterMobile={images.hero.mobile.src!}
+            posterAlt={images.hero.day.alt}
             label="Loading 3D towers"
           >
             {({ active, onReady }) => <HeroScene progress={progress} active={active} onReady={onReady} />}
@@ -90,7 +91,7 @@ export default function Hero() {
               <p className="font-serif text-xl italic text-ivory/85 md:text-2xl">{project.headline}</p>
             </div>
             <p data-hero-in className="mt-5 text-sm text-ivory/80">
-              4 &amp; 5 BHK Residences and Penthouses · Starting from{" "}
+              {project.configurationsLine} · Starting from{" "}
               <span className="font-serif text-xl text-gold">{formatINR(startingPrice())}*</span>
               <PriceNote className="mt-1 block text-[11px] text-ivory/60" />
             </p>

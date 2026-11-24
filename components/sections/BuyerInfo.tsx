@@ -2,12 +2,13 @@
 
 import { useId, useState } from "react";
 import { Plus } from "lucide-react";
-import { faqs, paymentPlan, specifications } from "@/data/buyer";
+import { faqs, paymentPlan, specifications } from "@/data/project";
 import { residences } from "@/data/residences";
 import { formatINR } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
 import { DemoOnly } from "@/components/ui/DemoNote";
+import JsonLd from "@/components/ui/JsonLd";
 
 /* ------------------------------------------------------------------ */
 /* Payment plan                                                        */
@@ -76,7 +77,7 @@ export function Specifications() {
           <p className="eyebrow !text-gold-dark">Specifications</p>
         </Reveal>
         <RevealText lines={["Crafted in detail."]} className="mt-5 text-5xl leading-[1] md:text-6xl" />
-        <Reveal className="mt-12 grid gap-px overflow-hidden border border-charcoal/15 bg-charcoal/15 sm:grid-cols-2 lg:grid-cols-3" stagger={0.06}>
+        <Reveal className="mt-12 grid gap-px overflow-hidden border border-charcoal/15 bg-charcoal/15 sm:grid-cols-2 lg:grid-cols-4" stagger={0.06}>
           {specifications.map((g) => (
             <div data-reveal key={g.title} className="bg-ivory-200 p-7">
               <h3 className="font-serif text-2xl text-charcoal">{g.title}</h3>
@@ -108,6 +109,13 @@ export function Faq() {
   const uid = useId();
   return (
     <section id="faq" className="bg-charcoal py-24 md:py-32">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+        }}
+      />
       <div className="container-luxe grid gap-12 lg:grid-cols-[1fr_1.7fr]">
         <div>
           <Reveal>

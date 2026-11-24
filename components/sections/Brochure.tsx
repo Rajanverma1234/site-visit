@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { ArrowLeft, Printer } from "lucide-react";
-import { amenities } from "@/data/amenities";
-import { places } from "@/data/locations";
-import { company, project, stats } from "@/data/project";
+import { amenities } from "@/data/project";
+import { places } from "@/data/project";
+import { company, project } from "@/data/project";
+import { headlineStats } from "@/data/inventory";
 import { residences } from "@/data/residences";
 import { formatArea, formatINR } from "@/lib/format";
 import Logo from "@/components/ui/Logo";
@@ -52,7 +53,7 @@ export default function Brochure() {
           <p className="mt-6 max-w-[140mm] text-sm leading-relaxed text-ivory/70">{project.intro}</p>
         </div>
         <div className="grid grid-cols-4 border-t border-white/15 pt-6">
-          {stats.map((s) => (
+          {headlineStats().map((s) => (
             <div key={s.label}>
               <p className="font-serif text-4xl">{s.value}</p>
               <p className="mt-1 text-[9px] uppercase tracking-[0.25em] text-gold">{s.label}</p>

@@ -8,11 +8,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { gsap } from "gsap";
 import { CalendarCheck, CircleHelp, Map as MapIcon, Maximize, Minimize, Moon, MousePointer2, Move, Sun, Volume2, VolumeX, X, ZoomIn, Hand, Footprints, Sparkles } from "lucide-react";
 import { STYLE_LABELS, getTourRoom, tourRooms, type InteriorStyle, type RoomId } from "@/data/tour";
-import { findUnit } from "@/data/units";
+import { findUnit } from "@/data/inventory";
 import { formatArea, formatINR } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useIsTouch, useReducedMotion } from "@/hooks/useMediaQuery";
 import Image from "next/image";
+import { images } from "@/data/images";
 import { LoadingChip } from "@/components/ui/LazyScene";
 import Logo from "@/components/ui/Logo";
 import Minimap from "./Minimap";
@@ -109,7 +110,7 @@ export default function TourExperience() {
   return (
     <div ref={container} className="fixed inset-0 overflow-hidden bg-charcoal" data-lenis-prevent>
       {/* Real render of the living room sits behind the (transparent) canvas until the 3D draws over it. */}
-      <Image src="/posters/tour.jpg" alt="" fill priority sizes="100vw" quality={65} className="object-cover" />
+      <Image src={images.posters.virtualTour.src!} alt="" fill priority sizes="100vw" quality={65} className="object-cover" />
       <div className="absolute inset-0" data-cursor="Drag">
         <TourCanvas room={room} night={night} style={style} touch={touch} reducedMotion={reducedMotion} onRoomChange={setRoom} onMoving={onMoving} />
       </div>
@@ -135,7 +136,7 @@ export default function TourExperience() {
           </AnimatePresence>
           {unit && (
             <p className="mt-2 text-xs text-ivory/70 drop-shadow">
-              Tower {unit.tower} · Floor {unit.floor} · {unit.type} · {formatArea(unit.area)} · {unit.view} · {unit.price ? formatINR(unit.price) : "Price on request"}
+              Tower {unit.tower} · Floor {unit.floor} · {unit.configuration} · {formatArea(unit.carpetArea)} carpet · {unit.facing} · {unit.price ? formatINR(unit.price) : "Price on request"}
             </p>
           )}
         </div>

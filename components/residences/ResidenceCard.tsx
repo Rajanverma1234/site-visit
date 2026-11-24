@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight, BedDouble, Car, Maximize2 } from "lucide-react";
 import type { Residence } from "@/data/residences";
 import { formatArea, formatINR } from "@/lib/format";
-import SmartImage from "@/components/ui/SmartImage";
+import SlotImage, { IllustrativeTag } from "@/components/ui/SlotImage";
 import TiltCard, { TiltGlare, TiltLayer } from "@/components/ui/TiltCard";
 
 export default function ResidenceCard({ residence, index }: { residence: Residence; index: number }) {
@@ -13,10 +13,11 @@ export default function ResidenceCard({ residence, index }: { residence: Residen
       <Link href={`/residences/${residence.slug}`} data-cursor="View" className="relative flex h-full min-h-[560px] flex-col overflow-hidden rounded-sm border border-white/10 bg-charcoal-800">
         <div className="relative h-72 overflow-hidden">
           <TiltLayer>
-            <SmartImage src={residence.image} alt={`${residence.type} interior`} fill sizes="(max-width: 768px) 100vw, 33vw" priority={index === 0} wrapperClassName="h-full w-full" className="transition-transform duration-[1.6s] ease-luxe group-hover:scale-105" />
+            <SlotImage slot={residence.image} cover sizes="(max-width: 768px) 100vw, 33vw" priority={index === 0} tag={false} imgClassName="transition-transform duration-[1.6s] ease-luxe group-hover:scale-105" />
           </TiltLayer>
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal-800 to-transparent" />
           <span className="absolute left-6 top-6 font-serif text-sm text-gold">0{index + 1}</span>
+          {residence.image.placeholder && <IllustrativeTag position="top-right" />}
         </div>
         <TiltGlare />
         <div className="flex flex-1 flex-col p-8 [transform:translateZ(30px)]">

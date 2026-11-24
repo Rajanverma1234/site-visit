@@ -1,7 +1,7 @@
 import { MapPin } from "lucide-react";
-import { about } from "@/data/about";
+import { developer as about } from "@/data/project";
 import Counter from "@/components/ui/Counter";
-import SmartImage from "@/components/ui/SmartImage";
+import SlotImage from "@/components/ui/SlotImage";
 import { DemoOnly } from "@/components/ui/DemoNote";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
 
@@ -42,16 +42,7 @@ export default function About() {
         <Reveal className="mt-8 grid gap-6 md:grid-cols-3" stagger={0.12}>
           {about.projects.map((p) => (
             <article data-reveal key={p.name} className="group">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <SmartImage
-                  src={p.image}
-                  alt={`${p.name}, ${p.location} (illustrative photo)`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  wrapperClassName="absolute inset-0"
-                  className="transition-transform duration-[1.6s] ease-luxe group-hover:scale-105"
-                />
-              </div>
+              <SlotImage slot={p.image} sizes="(max-width: 768px) 100vw, 33vw" imgClassName="transition-transform duration-[1.6s] ease-luxe group-hover:scale-105" />
               <p className="mt-4 text-[11px] uppercase tracking-[0.18em] text-gold-dark">{p.year}</p>
               <h4 className="mt-1 font-serif text-2xl">{p.name}</h4>
               <p className="mt-1 flex items-center gap-1.5 text-sm text-charcoal/75">

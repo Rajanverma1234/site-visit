@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ArrowUpRight, LayoutGrid } from "lucide-react";
 import { residences, type Residence } from "@/data/residences";
-import { configSummary } from "@/data/units";
+import { configSummary } from "@/data/inventory";
 import { formatArea, formatINR } from "@/lib/format";
 import FloorPlan from "@/components/residences/FloorPlan";
 import Modal from "@/components/ui/Modal";
