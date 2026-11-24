@@ -13,6 +13,7 @@ import { GradientSky, InteriorEnvironment } from "./Environment";
 import { MaterialsContext, PALETTES, useCreateMaterials, type InteriorStyle, type TourMaterials } from "./materials";
 import { EYE_HEIGHT, tourRooms, type RoomId } from "@/data/tour";
 import { useMouse } from "@/hooks/useMouse";
+import { useLowPower } from "@/hooks/useMediaQuery";
 import { seededRandom } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
@@ -332,7 +333,9 @@ function Scene({ room, night, style, touch, reducedMotion, onRoomChange, onMovin
 }
 
 export default function TourCanvas(props: TourCanvasProps) {
-  const [quality, setQuality] = useState<"high" | "low">("high");
+  const lowPower = useLowPower();
+  const [measured, setQuality] = useState<"high" | "low">("high");
+  const quality = lowPower ? "low" : measured;
   const [moving, setMoving] = useState(false);
   const { onMoving } = props;
   const handleMoving = useMemo(
@@ -345,7 +348,7 @@ export default function TourCanvas(props: TourCanvasProps) {
 
   return (
     <Canvas
-      dpr={[1, 1.5]}
+      dpr={lowPower ? [1, 1.25] : [1, 1.5]}
       camera={{ fov: 62, near: 0.05, far: 2000, position: [0, EYE_HEIGHT, 0] }}
       gl={{ antialias: true, powerPreference: "high-performance" }}
       style={{ touchAction: "none" }}

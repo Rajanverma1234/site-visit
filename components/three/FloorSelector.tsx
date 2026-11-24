@@ -4,8 +4,10 @@ import { Canvas, useThree, type ThreeEvent } from "@react-three/fiber";
 import { AdaptiveDpr, ContactShadows, OrbitControls } from "@react-three/drei";
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
-import type { FloorInfo } from "@/data/units";
-import { statusColors } from "@/data/units";
+import type { FloorInfo } from "@/data/inventory";
+import { statusColors } from "@/data/inventory";
+import { building } from "@/data/project";
+import { useLowPower } from "@/hooks/useMediaQuery";
 import { FrameloopController } from "./CameraRig";
 import { GoldenHourEnvironment } from "./Environment";
 import SceneReady from "./SceneReady";
@@ -124,13 +126,13 @@ function Tower({ floors, hovered, selected, isMatch, onHover, onSelect }: Omit<F
         [-1, 1],
         [1, 1],
       ].map(([sx, sz], i) => (
-        <mesh key={i} position={[(sx * W) / 2, (42 * FH) / 2, (sz * D) / 2]} raycast={() => null}>
-          <boxGeometry args={[0.08, 42 * FH + 0.2, 0.08]} />
+        <mesh key={i} position={[(sx * W) / 2, (building.floors * FH) / 2, (sz * D) / 2]} raycast={() => null}>
+          <boxGeometry args={[0.08, building.floors * FH + 0.2, 0.08]} />
           <meshStandardMaterial color="#b8955a" metalness={1} roughness={0.3} />
         </mesh>
       ))}
       {/* Crown */}
-      <mesh position={[0, 42 * FH + 0.5, 0]} raycast={() => null}>
+      <mesh position={[0, building.floors * FH + 0.5, 0]} raycast={() => null}>
         <boxGeometry args={[W * 0.75, 1, D * 0.75]} />
         <meshStandardMaterial color="#1c2430" metalness={0.8} roughness={0.1} />
       </mesh>
@@ -145,8 +147,9 @@ function Tower({ floors, hovered, selected, isMatch, onHover, onSelect }: Omit<F
 
 export default function FloorSelector3D(props: FloorSelectorProps) {
   const { active, touch, reducedMotion, onReady, ...towerProps } = props;
+  const lowPower = useLowPower();
   return (
-    <Canvas dpr={[1, 1.5]} camera={{ fov: 30, position: [21, 14, 33] }} gl={{ antialias: true }} onPointerMissed={() => props.onHover(null)}>
+    <Canvas dpr={lowPower ? [1, 1.25] : [1, 1.5]} camera={{ fov: 30, position: [21, 14, 33] }} gl={{ antialias: true }} onPointerMissed={() => props.onHover(null)}>
       <FrameloopController active={active} />
       <AdaptiveDpr pixelated />
       <ambientLight intensity={0.7} />
@@ -156,7 +159,7 @@ export default function FloorSelector3D(props: FloorSelectorProps) {
       <Tower {...towerProps} />
       <SceneReady onReady={onReady} />
       <TouchScrollFix touch={touch} />
-      <ContactShadows position={[0, -0.39, 0]} opacity={0.6} scale={20} blur={2.6} far={6} frames={1} />
+      {!lowPower && <ContactShadows position={[0, -0.39, 0]} opacity={0.6} scale={20} blur={2.6} far={6} frames={1} />}
       <OrbitControls
         target={[0, 8.4, 0]}
         enableZoom={false}

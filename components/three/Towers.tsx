@@ -5,13 +5,15 @@ import { MeshReflectorMaterial } from "@react-three/drei";
 import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { seededRandom } from "@/lib/utils";
+import { building } from "@/data/project";
 
 /**
  * THE SOVEREIGN — two procedurally built glass towers at golden hour.
  * Repeated geometry (slabs, fins, windows, city blocks, trees) is instanced to keep draw calls low.
  */
 
-export const FLOORS = 42;
+export const FLOORS = building.floors;
+const SKY_INDEX = building.skyLoungeFloor - 1; // 0-based floor index of the Sky Lounge band
 export const FLOOR_H = 0.42;
 export const TOWER_W = 4.6;
 export const TOWER_H = FLOORS * FLOOR_H;
@@ -58,7 +60,7 @@ function TowerCores() {
             <boxGeometry args={[TOWER_W, TOWER_H, TOWER_W]} />
           </mesh>
           {/* Sky lounge glow band (40th floor) */}
-          <mesh material={lounge} position={[0, 40 * FLOOR_H - FLOOR_H / 2, 0]}>
+          <mesh material={lounge} position={[0, building.skyLoungeFloor * FLOOR_H - FLOOR_H / 2, 0]}>
             <boxGeometry args={[TOWER_W + 0.1, FLOOR_H * 0.55, TOWER_W + 0.1]} />
           </mesh>
           {/* Crown: brass frame + lantern */}
@@ -145,7 +147,7 @@ function Windows({ reducedMotion }: { reducedMotion: boolean }) {
             const y = fl * FLOOR_H + FLOOR_H * 0.55;
             const local = new THREE.Matrix4().makeRotationY((face * Math.PI) / 2).multiply(new THREE.Matrix4().makeTranslation(u, y, TOWER_W / 2 + 0.012));
             mesh.setMatrixAt(i, tm.clone().multiply(local));
-            const on = rand() < 0.16 && fl !== 39; // floor 40 (index 39) is the sky lounge band
+            const on = rand() < 0.16 && fl !== SKY_INDEX; // the Sky Lounge band covers this floor
             lit.current[i] = on ? 1 : 0;
             if (on) litCount.current++;
             mesh.setColorAt(i, on ? palette[Math.floor(rand() * palette.length)] : OFF);

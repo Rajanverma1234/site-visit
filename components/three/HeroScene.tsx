@@ -9,18 +9,21 @@ import SceneReady from "./SceneReady";
 import { GoldenHourEnvironment, GradientSky } from "./Environment";
 import { FrameloopController, HeroCameraRig } from "./CameraRig";
 import { useMouse } from "@/hooks/useMouse";
-import { useIsTouch, useReducedMotion } from "@/hooks/useMediaQuery";
+import { useIsTouch, useLowPower, useReducedMotion } from "@/hooks/useMediaQuery";
 
 /** Full-screen hero canvas. Lazy-loaded (ssr:false) from the Hero section. */
 export default function HeroScene({ progress, active, onReady }: { progress: MutableRefObject<number>; active: boolean; onReady?: () => void }) {
   const mouse = useMouse();
   const touch = useIsTouch();
   const reducedMotion = useReducedMotion();
-  const [quality, setQuality] = useState<"high" | "low">("high");
+  const lowPower = useLowPower();
+  const [measured, setQuality] = useState<"high" | "low">("high");
+  // Phones / low-power devices: lower pixel ratio, no reflections, no post-processing.
+  const quality = lowPower ? "low" : measured;
 
   return (
     <Canvas
-      dpr={[1, 1.5]}
+      dpr={lowPower ? [1, 1.25] : [1, 1.5]}
       camera={{ fov: 32, near: 0.5, far: 500, position: [0, 6, 34] }}
       gl={{ antialias: true, powerPreference: "high-performance" }}
       aria-label="Interactive 3D view of The Sovereign towers at golden hour"
