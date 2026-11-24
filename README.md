@@ -54,7 +54,7 @@ After deploying, change `metadataBase` in `app/layout.tsx` to your real domain s
 
 ## Use it for a real project
 
-Almost all content lives in the **`/data`** folder. Edit these files and the whole site updates.
+Almost all content lives in the **`/data`** folder. Edit these files and the whole site updates. **See [HANDOVER.md](HANDOVER.md) for the current, step-by-step guide** (the table below predates the data consolidation).
 
 | File | What to change |
 | --- | --- |
@@ -133,7 +133,7 @@ One environment variable controls everything that only makes sense for a concept
 | unset or `true` (default) | `noindex, nofollow` meta tag, `robots.txt` blocks all crawlers, and every "concept demo / illustrative / fictional" note is shown. |
 | `false` | Search engines are allowed, and the demo disclaimers, "(demo)" RERA labels and "fictional" badges are hidden. |
 
-Set it in **Vercel → Project → Settings → Environment Variables**, then redeploy. You can also set `NEXT_PUBLIC_SITE_URL` to your real domain for share links.
+Set it in **Vercel → Project → Settings → Environment Variables**, then redeploy. All variables are listed in [`.env.example`](.env.example). Lead emails are sent by `app/api/lead/route.ts` via Resend when `RESEND_API_KEY` is set. You can also set `NEXT_PUBLIC_SITE_URL` to your real domain for share links.
 
 ### Launch checklist (replace demo data)
 
