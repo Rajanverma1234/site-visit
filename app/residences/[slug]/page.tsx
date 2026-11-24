@@ -6,7 +6,7 @@ import { GST_RATE, getResidence, priceBreakup, residences } from "@/data/residen
 import { formatArea, formatINR, formatINRFull } from "@/lib/format";
 import FloorPlan from "@/components/residences/FloorPlan";
 import EmiCalculator from "@/components/residences/EmiCalculator";
-import SmartImage from "@/components/ui/SmartImage";
+import SlotImage from "@/components/ui/SlotImage";
 import Magnetic from "@/components/ui/Magnetic";
 import { Reveal } from "@/components/ui/Reveal";
 import { CRORE } from "@/lib/format";
@@ -34,7 +34,7 @@ export default function ResidenceDetailPage({ params }: { params: { slug: string
     <>
       {/* Hero */}
       <section className="relative flex min-h-[80vh] items-end overflow-hidden bg-charcoal pb-16 pt-40">
-        <SmartImage src={r.image} alt={`${r.type} living room`} fill priority sizes="100vw" wrapperClassName="absolute inset-0" />
+        <SlotImage slot={r.image} cover priority sizes="100vw" tagPosition="top-right" className="!absolute" />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/20" />
         <div className="container-luxe relative">
           <Link href="/residences" className="mb-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-ivory/70 hover:text-gold">

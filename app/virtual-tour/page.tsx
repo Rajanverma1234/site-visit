@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import TourExperience from "@/components/tour/TourExperience";
 import Image from "next/image";
+import { images } from "@/data/images";
 
 export const metadata: Metadata = {
   title: "Virtual Tour",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function VirtualTourPage() {
   return (
-    <Suspense fallback={<div className="fixed inset-0 bg-charcoal"><Image src="/posters/tour.jpg" alt="" fill priority sizes="100vw" quality={65} className="object-cover" /></div>}>
+    <Suspense fallback={<div className="fixed inset-0 bg-charcoal"><Image src={images.posters.virtualTour.src!} alt="" fill priority sizes="100vw" quality={65} className="object-cover" /></div>}>
       <TourExperience />
     </Suspense>
   );

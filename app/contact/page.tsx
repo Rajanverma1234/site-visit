@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import ContactContent from "@/components/sections/ContactContent";
+import { project } from "@/data/project";
 
 export const metadata: Metadata = {
   title: "Contact & Book a Visit",
-  description: "Book a video-call tour or a site visit to The Sovereign, Golf Course Road, Gurugram. Download the brochure.",
+  description: `Book a video-call tour or a site visit to ${project.shortName}, ${project.location}. Download the brochure.`,
 };
 
 export default function ContactPage() {

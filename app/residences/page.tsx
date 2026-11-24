@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { residences } from "@/data/residences";
-import { inventorySummary } from "@/data/units";
+import { project } from "@/data/project";
+import { formatArea } from "@/lib/format";
+import { inventorySummary } from "@/data/inventory";
 import ResidenceCard from "@/components/residences/ResidenceCard";
 import EmiCalculator from "@/components/residences/EmiCalculator";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
@@ -10,7 +12,7 @@ import { PriceNote } from "@/components/ui/DemoNote";
 
 export const metadata: Metadata = {
   title: "Residences",
-  description: "Ultra-luxury 4 BHK (4,800 sq ft), 5 BHK (6,200 sq ft) and Penthouse (11,500 sq ft) residences at The Sovereign, Golf Course Road, Gurugram.",
+  description: `Ultra-luxury ${residences.map((r) => `${r.type} (${formatArea(r.area)})`).join(", ")} residences at ${project.shortName}, ${project.location}.`,
 };
 
 export default function ResidencesPage() {

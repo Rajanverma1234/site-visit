@@ -138,6 +138,7 @@ input[type="range"].range-luxe:focus-visible { outline: 1px solid var(--gold); o
   .no-print { display: none !important; }
   .grain::after { display: none; }
   .print-page { page-break-after: always; break-after: page; }
+  .print-page:last-child { page-break-after: auto; break-after: auto; }
 }
 
 @keyframes fadeUp { from { opacity: 0; transform: translate(-50%, calc(-100% - 8px)); } to { opacity: 1; } }
